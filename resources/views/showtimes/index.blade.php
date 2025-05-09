@@ -24,7 +24,7 @@
 
 <body class="bg-main text-white font-sans">
 
-    <x-navbar />
+    <x-navbar></x-navbar>
 
     <!-- Section Poster + Info -->
     <div class="relative w-full overflow-hidden">
@@ -127,6 +127,31 @@
         </div>
     </div>
 
+    <h2 class="text-xl font-bold mb-4 text-center mt-5">Showtimes for - {{ $film->title }}</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10 mx-4">
+        @foreach ($showtimes as $showtime)
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-5 hover:shadow-lg transition duration-300">
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">{{ $showtime->studio->bioskop->name }}</h2>
+                <p class="text-sm text-gray-500">Studio: {{ $showtime->studio->name }}</p>
+            </div>
+
+            <div class="text-sm text-gray-700 space-y-1">
+                <p><span class="font-medium">Tanggal:</span> {{ \Carbon\Carbon::parse($showtime->show_date)->format('d M Y') }}</p>
+                <p><span class="font-medium">Jam:</span> {{ $showtime->show_time }} - {{ $showtime->end_time }}</p>
+                <p><span class="font-medium">Harga:</span> <span class="text-green-600 font-semibold">Rp{{ number_format($showtime->price) }}</span></p>
+            </div>
+
+            <div class="mt-4">
+                <a href="#"
+                    class="w-full inline-block text-center bg-main text-white font-semibold py-2 px-4 rounded-lg hover:bg-white hover:text-main transition duration-200">
+                    Pilih Kursi
+                </a>
+            </div>
+        </div>
+        @endforeach
+    </div>
 
 
     <x-footer></x-footer>

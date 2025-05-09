@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\FilmBioskop;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -41,9 +40,9 @@ class Film extends Model
         return $this->hasMany(Rating::class);
     }
 
-    public function showtime()
+    public function showtimes()
     {
-        return $this->hasMany(Showtime::class);
+        return $this->hasMany(Showtime::class, 'film_id');
     }
     public function bioskops()
     {

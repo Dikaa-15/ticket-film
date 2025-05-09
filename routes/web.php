@@ -75,8 +75,12 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 });
 
 
+// Halaman detail film
+Route::get('/film/{slug}', [FilmController::class, 'show'])->name('film.show');
 
-Route::get('/{slug}', [HomeController::class, 'show'])->name('film.show');
+// Halaman showtime berdasarkan film
+Route::get('/{slug}/showtime', [HomeController::class, 'showtime'])->name('film.showtime');
+
 
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/dashboard', function () {
