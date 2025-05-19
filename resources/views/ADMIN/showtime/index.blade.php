@@ -47,7 +47,7 @@
 
                         <!-- Tombol Delete -->
                         <form action="{{ route('showtime.destroy', $showtime->id) }}" method="POST"
-                            onsubmit="return confirm('Yakin mau hapus genre ini?')">
+                            onsubmit="return confirm('Yakin mau hapus show time ini?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit"

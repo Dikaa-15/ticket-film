@@ -1,7 +1,9 @@
 <div class="flex h-screen flex-col justify-between border-e border-gray-100 bg-white">
   <div class="px-4 py-6">
     <span class="grid h-10 w-32 place-content-center rounded-lg  text-gray-600">
-      <img src="{{ asset('logos/logo-64-big.png') }}" alt="" class="h-10 w-10" />
+      <a href="{{ route('home') }}">
+        <img src="{{ asset('logos/logo-64-big.png') }}" alt="" class="h-10 w-10" />
+      </a>
     </span>
 
     <ul class="mt-6 space-y-1">

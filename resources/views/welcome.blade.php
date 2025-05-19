@@ -89,7 +89,7 @@
                     </div>
                 </a>
                 @empty
-                <p class="text-white">Tidak ada film tersedia.</p>
+                <p class="text-white">There's no film available.</p>
                 @endforelse
             </div>
         </div>

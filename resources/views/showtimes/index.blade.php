@@ -35,7 +35,7 @@
 
 
         <!-- Konten Utama -->
-        <div class="relative z-10 flex items-center min-h-[90vh] bg-black/50 backdrop-blur-xs">
+        <div class="relative z-10 flex items-center min-h-[92vh] bg-black/50 backdrop-blur-xs">
             <div class="container mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-10">
 
                 <!-- Poster Film -->
@@ -127,9 +127,9 @@
         </div>
     </div>
 
-    <h2 class="text-xl font-bold mb-4 text-center mt-5">Showtimes for - {{ $film->title }}</h2>
+    <h2 class="text-2xl font-bold mb-5 text-center mt-5 ">Showtimes for - {{ $film->title }}</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10 mx-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10 mx-4 my-8">
         @foreach ($showtimes as $showtime)
         <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-5 hover:shadow-lg transition duration-300">
             <div class="mb-4">
@@ -140,12 +140,12 @@
             <div class="text-sm text-gray-700 space-y-1">
                 <p><span class="font-medium">Tanggal:</span> {{ \Carbon\Carbon::parse($showtime->show_date)->format('d M Y') }}</p>
                 <p><span class="font-medium">Jam:</span> {{ $showtime->show_time }} - {{ $showtime->end_time }}</p>
-                <p><span class="font-medium">Harga:</span> <span class="text-green-600 font-semibold">Rp{{ number_format($showtime->price) }}</span></p>
+                <p><span class="font-medium">Harga:</span> <span class="text-main font-semibold">Rp{{ number_format($showtime->price) }}</span></p>
             </div>
 
             <div class="mt-4">
-                <a href="#"
-                    class="w-full inline-block text-center bg-main text-white font-semibold py-2 px-4 rounded-lg hover:bg-white hover:text-main transition duration-200">
+                <a href="{{ route('seat.selection',['id' => $showtime->id]) }}"
+                    class="w-full inline-block text-center bg-main text-white font-semibold py-2 px-4 rounded-lg hover:bg-white hover:border-1 border-main hover:text-main transition duration-200">
                     Pilih Kursi
                 </a>
             </div>

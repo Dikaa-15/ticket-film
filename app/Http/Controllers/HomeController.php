@@ -27,23 +27,29 @@ class HomeController extends Controller
         $film = Film::where('slug', $slug)->firstOrFail();
 
         //
-
         return view('film.show', compact('film'));
     }
 
+    
     public function showtime($slug)
     {
-        // Ambil film berdasarkan slug
         $film = Film::where('slug', $slug)->firstOrFail();
 
-        // Ambil showtimes berdasarkan film yang dipilih
+        $now = Carbon::now();
+        $today = $now->toDateString();
+        $currentTime = $now->format('H:i:s');
+
         $showtimes = $film->showtimes()
             ->with(['studio.bioskop'])
+            ->where(function ($query) use ($today, $currentTime) {
+                $query->where('show_date', '>', $today)
+                    ->orWhere(function ($query) use ($today, $currentTime) {
+                        $query->where('show_date', $today)
+                            ->where('show_time', '>=', $currentTime);
+                    });
+            })
             ->orderBy('show_date')
             ->orderBy('show_time')
-            ->where('show_date', '>=', Carbon::now())
-            ->where('show_time', '>=', Carbon::now()->format('H:i:s'))
-            // ->groupBy('show_date')
             ->selectRaw('show_date, show_time, end_time, price, studio_id, film_id')
             ->get();
 

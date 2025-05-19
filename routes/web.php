@@ -17,6 +17,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FilmGenreController;
 use App\Http\Controllers\FilmBioskopController;
 use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\SeatSelectionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -74,12 +75,15 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::resource('filmbioskop', FilmBioskopController::class);
 });
 
+// Informasi detail film, showtime, select seat
+Route::group([], function () {
+    Route::get('/film/{slug}', [FilmController::class, 'show'])->name('film.show');
+    Route::get('/{slug}/showtime', [HomeController::class, 'showtime'])->name('film.showtime');
+    Route::get('/showtime/{id}/seats', [SeatSelectionController::class, 'index'])->name('seat.selection');
+    Route::post('/showtime/{id}/seats/book', [SeatSelectionController::class, 'book'])->name('seat.book');
+});
 
 // Halaman detail film
-Route::get('/film/{slug}', [FilmController::class, 'show'])->name('film.show');
-
-// Halaman showtime berdasarkan film
-Route::get('/{slug}/showtime', [HomeController::class, 'showtime'])->name('film.showtime');
 
 
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {

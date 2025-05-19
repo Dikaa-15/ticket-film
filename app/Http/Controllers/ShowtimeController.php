@@ -56,8 +56,8 @@ class ShowtimeController extends Controller
             'film_id' => 'required',
             'studio_id' => 'required',
             'show_date' => 'required|date',
-            'show_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i',
+            'show_time' => 'required',
+            'end_time' => 'required',
             'price' => 'required|numeric',
         ]);
 
@@ -71,6 +71,6 @@ class ShowtimeController extends Controller
     {
         $showtime = Showtime::findOrFail($id);
         $showtime->delete();
-        return redirect()->route('showtimes.index')->with('success', 'Showtime berhasil dihapus');
+        return redirect()->route('showtime.index')->with('success', 'Showtime berhasil dihapus');
     }
 }

@@ -15,13 +15,15 @@
         id="film_id"
         name="film_id"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        required
-      >
+        required>
         @foreach($films as $film)
         <option value="{{ $film->id }}" {{ $showtime->film_id == $film->id ? 'selected' : '' }}>{{ $film->title }}</option>
         @endforeach
       </select>
     </div>
+    @error('film_id')
+    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+    @enderror
 
     {{-- Studio --}}
     <div>
@@ -30,13 +32,15 @@
         id="studio_id"
         name="studio_id"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        required
-      >
+        required>
         @foreach($studios as $studio)
         <option value="{{ $studio->id }}" {{ $showtime->studio_id == $studio->id ? 'selected' : '' }}>{{ $studio->name }}</option>
         @endforeach
       </select>
     </div>
+    @error('studio_id')
+    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+    @enderror
 
     {{-- Tanggal Showtime --}}
     <div>
@@ -47,9 +51,11 @@
         name="show_date"
         value="{{ $showtime->show_date }}"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        required
-      />
+        required />
     </div>
+    @error('show_date')
+    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+    @enderror
 
     {{-- Jam Tayang --}}
     <div>
@@ -60,10 +66,12 @@
         name="show_time"
         value="{{ $showtime->show_time }}"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        required
-      />
+        required />
     </div>
-    
+    @error('show_time')
+    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+    @enderror
+
     {{-- Jam Tayang --}}
     <div>
       <label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">Jam Akhir Tayang</label>
@@ -73,9 +81,12 @@
         name="end_time"
         value="{{ $showtime->end_time }}"
         class="w-full rounded border boder-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        required
-      />
+        required />
     </div>
+    @error('end_time')
+    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+    @enderror
+
     {{-- Harga --}}
     <div>
       <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Harga</label>
@@ -85,16 +96,17 @@
         name="price"
         value="{{ $showtime->price }}"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        required
-      />
+        required />
     </div>
+    @error('price')
+    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+    @enderror
 
     {{-- Tombol Simpan --}}
     <div>
       <button
         type="submit"
-        class="inline-block rounded-sm border border-main bg-main px-8 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-main transition-all"
-      >
+        class="inline-block rounded-sm border border-main bg-main px-8 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-main transition-all">
         Simpan
       </button>
     </div>
