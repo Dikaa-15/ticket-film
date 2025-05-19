@@ -24,34 +24,94 @@
 
 </head>
 
-<body>
+<body class="bg-main">
     <x-navbar></x-navbar>
     <div class="max-w-6xl mx-auto py-10">
-        <h2 class="text-2xl font-bold text-center mb-6">Pilih Kursi untuk {{ $showtime->film->title }}</h2>
+        <h2 class="text-2xl font-bold text-white text-center mb-6">
+            Pilih Kursi untuk {{ $showtime->film->title }}
+        </h2>
+
+        {{-- LAYAR --}}
+        <div class="mb-10">
+            <div class="w-full bg-gray-300 text-center py-2 rounded-t-xl text-gray-700 font-semibold tracking-widest shadow-inner">
+                LAYAR
+            </div>
+            <div class="h-2 bg-gradient-to-t from-gray-300 to-transparent rounded-b-lg"></div>
+        </div>
 
         <form method="POST" action="{{ route('seat.book', $showtime->id) }}">
             @csrf
-            <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+
+            <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 justify-center">
                 @foreach($seats as $seat)
+                @php
+                $isBooked = in_array($seat->id, $bookedSeatIds);
+                $isAvailable = $seat->is_available;
+                @endphp
+
                 <label class="cursor-pointer">
-                    <input type="checkbox" name="seats[]" value="{{ $seat->id }}" class="hidden"
-                        {{ in_array($seat->id, $bookedSeatIds) ? 'disabled' : '' }}>
-                    <div class="p-4 rounded-lg border 
-                        {{ in_array($seat->id, $bookedSeatIds) ? 'bg-red-300 cursor-not-allowed' : 'bg-green-200 hover:bg-green-400' }}">
-                        {{ $seat->seat_number }}
+                    <input
+                        type="checkbox"
+                        name="seats[]"
+                        value="{{ $seat->id }}"
+                        class="hidden seat-checkbox"
+                        {{ !$isAvailable || $isBooked ? 'disabled' : '' }}>
+
+                    <div class="seat-box p-4 py-10 rounded-lg text-center transition duration-300
+                        {{ $isAvailable 
+                            ? 'border-2 border-white text-white hover:bg-white hover:text-black' 
+                            : 'bg-white text-main cursor-not-allowed' }}">
                     </div>
                 </label>
                 @endforeach
             </div>
 
-            <div class="mt-6 text-center">
+            <div class="mt-8 text-center">
                 <button type="submit"
-                    class="bg-main text-white px-6 py-2 rounded-lg font-semibold hover:bg-main-dark">
-                    Pesan Kursi
+                    class="bg-white text-main px-6 py-2 rounded-lg font-semibold hover:bg-main-dark transition">
+                    Select Seats
                 </button>
             </div>
         </form>
+
+        {{-- LEGEND --}}
+        <div class="flex justify-center gap-6 mt-10 text-sm text-gray-300">
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-5 h-5 bg-transparent border-2 border-white rounded-sm"></span> Available
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-5 h-5 bg-white rounded-sm"></span> Booked
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-5 h-5 bg-amber-500 border-2 border-black rounded-sm"></span> Selected
+            </div>
+        </div>
     </div>
+
+    {{-- SCRIPT --}}
+    <script>
+        document.querySelectorAll('.seat-checkbox').forEach((checkbox) => {
+            const box = checkbox.nextElementSibling;
+
+            // Saat halaman load, pastikan style sesuai kondisi
+            if (checkbox.checked) {
+                box.classList.add('bg-white', 'text-black', 'border-black');
+                box.classList.remove('text-white', 'hover:bg-white', 'hover:text-black');
+            }
+
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    box.classList.add('bg-amber-500', 'text-white', 'border-black');
+                    box.classList.remove('text-white', 'hover:bg-white', 'hover:text-black');
+                } else {
+                    box.classList.remove('bg-amber-500', 'text-black', 'border-black');
+                    box.classList.add('text-white', 'hover:bg-white', 'hover:text-black');
+                }
+            });
+        });
+    </script>
+
+
     <x-footer></x-footer>
 </body>
 

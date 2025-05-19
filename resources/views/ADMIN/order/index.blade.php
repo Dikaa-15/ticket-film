@@ -33,9 +33,10 @@
                 <td class="px-4 py-3 text-gray-700">{{ $order->quantity }}</td>
                 <td class="px-4 py-3 text-gray-700">Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
                 <td class="px-4 py-3 text-gray-700"><span class="inline-block px-2 py-1 text-xs font-semibold rounded-full 
-                            {{ $order->status == 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                        {{ ucfirst($order->status) }}
-                    </span></td>
+                {{ $order->status == 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                {{ ucfirst($order->status) }}
+            </span></td>
+            <td class="px-4 py-3 text-gray-700">{{ $order->created_at }}</td>
                 <td class="px-4 py-3">
                     <span class="inline-flex divide-x divide-gray-300 overflow-hidden rounded border border-gray-300 bg-white shadow-sm">
                         <!-- Tombol Edit -->

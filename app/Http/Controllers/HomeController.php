@@ -50,7 +50,7 @@ class HomeController extends Controller
             })
             ->orderBy('show_date')
             ->orderBy('show_time')
-            ->selectRaw('show_date, show_time, end_time, price, studio_id, film_id')
+            ->selectRaw('id, show_date, show_time, end_time, price, studio_id, film_id')
             ->get();
 
         return view('showtimes.index', compact('film', 'showtimes'));

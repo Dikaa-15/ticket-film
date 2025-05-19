@@ -14,6 +14,7 @@ protected $fillable = [
     'seat_id',
     'is_available',
 ];
+
 public function order()
 {
     return $this->belongsTo(Order::class);

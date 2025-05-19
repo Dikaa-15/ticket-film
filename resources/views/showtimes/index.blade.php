@@ -144,8 +144,8 @@
             </div>
 
             <div class="mt-4">
-                <a href="{{ route('seat.selection',['id' => $showtime->id]) }}"
-                    class="w-full inline-block text-center bg-main text-white font-semibold py-2 px-4 rounded-lg hover:bg-white hover:border-1 border-main hover:text-main transition duration-200">
+                <a class="w-full inline-block text-center bg-main text-white font-semibold py-2 px-4 rounded-lg hover:bg-white hover:border-1 border-main hover:text-main transition duration-200"
+                 href="{{ route('seat.selection', ['id' => $showtime->id]) }}">
                     Pilih Kursi
                 </a>
             </div>
