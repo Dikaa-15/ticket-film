@@ -5,15 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Seat;
 use App\Models\Studio;
 use App\Models\Bioskop;
+use App\Models\Showtime;
 use Illuminate\Http\Request;
 
 class SeatController extends Controller
 {
+    public function confirmSeat(Request $request, Showtime $showtime)
+    {
+        $request->validate([
+            'seats' => 'required|array|min:1',
+        ]);
+
+        $seats = Seat::whereIn('id', $request->seats)->get();
+
+        $totalPrice = count($seats) * $showtime->price; // Assuming showtime has 'price'
+
+        return view('seats.confirm', [
+            'showtime' => $showtime,
+            'seats' => $seats,
+            'totalPrice' => $totalPrice,
+        ]);
+    }
+    
     public function index()
     {
         $seats = Seat::with(['studio', 'bioskop'])
-        ->latest()
-        ->paginate(10);
+            ->latest()
+            ->paginate(10);
         return view('admin.seat.index', compact('seats'));
     }
 

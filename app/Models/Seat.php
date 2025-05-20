@@ -15,6 +15,7 @@ class Seat extends Model
         'bioskop_id',
         'seat_number',
     ];
+    
     public function studio()
     {
         return $this->belongsTo(Studio::class);

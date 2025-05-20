@@ -25,7 +25,6 @@
 </head>
 
 <body class="bg-main">
-    <x-navbar></x-navbar>
     <div class="max-w-6xl mx-auto py-10">
         <h2 class="text-2xl font-bold text-white text-center mb-6">
             Pilih Kursi untuk {{ $showtime->film->title }}
@@ -39,7 +38,7 @@
             <div class="h-2 bg-gradient-to-t from-gray-300 to-transparent rounded-b-lg"></div>
         </div>
 
-        <form method="POST" action="{{ route('seat.book', $showtime->id) }}">
+        <form method="POST" action="{{ route('seat.confirm', $showtime->id) }}">
             @csrf
 
             <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 justify-center">
@@ -49,7 +48,7 @@
                 $isAvailable = $seat->is_available;
                 @endphp
 
-                <label class="cursor-pointer">
+                <label class="cursor-pointer relative group">
                     <input
                         type="checkbox"
                         name="seats[]"
@@ -57,14 +56,22 @@
                         class="hidden seat-checkbox"
                         {{ !$isAvailable || $isBooked ? 'disabled' : '' }}>
 
-                    <div class="seat-box p-4 py-10 rounded-lg text-center transition duration-300
-                        {{ $isAvailable 
-                            ? 'border-2 border-white text-white hover:bg-white hover:text-black' 
-                            : 'bg-white text-main cursor-not-allowed' }}">
+                    <div class="seat-box p-4 py-6 rounded-lg text-center transition duration-300
+                {{ $isBooked 
+                    ? 'bg-white text-main cursor-not-allowed' 
+                    : ($isAvailable 
+                        ? 'border-2 border-white text-white hover:bg-white hover:text-black group-hover:scale-105' 
+                        : 'bg-gray-400 text-gray-700 cursor-not-allowed') }}">
+
+                        {{-- Nomor Kursi --}}
+                        <span class="block font-bold">
+                            {{ $seat->seat_number }}
+                        </span>
                     </div>
                 </label>
                 @endforeach
             </div>
+
 
             <div class="mt-8 text-center">
                 <button type="submit"

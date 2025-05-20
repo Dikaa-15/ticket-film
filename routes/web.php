@@ -81,6 +81,9 @@ Route::group([], function () {
     Route::get('/{slug}/showtime', [HomeController::class, 'showtime'])->name('film.showtime');
     Route::get('/showtime/{id}/seats', [SeatSelectionController::class, 'index'])->name('seat.selection');
     Route::post('/showtime/{id}/seats/book', [SeatSelectionController::class, 'book'])->name('seat.book');
+
+    Route::post('/seat/confirm/{showtime}', [SeatController::class, 'confirmSeat'])->name('seat.confirm');
+    Route::post('/seat/finalize', [OrderController::class, 'finalize'])->name('seat.finalize');
 });
 
 // Halaman detail film

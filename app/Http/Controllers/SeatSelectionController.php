@@ -21,7 +21,8 @@ class SeatSelectionController extends Controller
             ->get();
 
         $bookedSeatIds = OrderDetail::whereHas('order', function ($q) use ($id) {
-            $q->where('showtime_id', $id);
+            $q->where('showtime_id', $id)
+                ->whereIn('status', ['pending', 'paid']); // Status mana aja yang dianggap BOOKED
         })->pluck('seat_id')->toArray();
 
         return view('seats.index', compact('showtime', 'seats', 'bookedSeatIds'));

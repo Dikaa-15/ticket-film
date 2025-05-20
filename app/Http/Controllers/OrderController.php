@@ -4,14 +4,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\Seat;
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Showtime;
-use Illuminate\Http\Request;
+use App\Models\OrderDetail;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function finalize(Request $request)
+    {
+        $request->validate([
+            'showtime_id' => 'required|exists:show_times,id',
+            'seat_ids' => 'required|array|min:1',
+        ]);
+
+        $showtime = Showtime::findOrFail($request->showtime_id);
+        $seats = Seat::whereIn('id', $request->seat_ids)->get();
+        $totalPrice = count($seats) * $showtime->price;
+        $pricePerTicket = $showtime->film->price;
+
+        $order = Order::create([
+            'order_number' => 'ORD-' . strtoupper(Str::random(8)),
+            'user_id' => auth()->id(),
+            'showtime_id' => $showtime->id,
+            'quantity' => count($seats),
+            'total_price' => $totalPrice,
+            'status' => 'pending',
+            'payment_method' => 'manual',
+        ]);
+
+        foreach ($seats as $seat) {
+            OrderDetail::create([
+                'order_id' => $order->id,
+                'seat_id' => $seat->id,
+                'is_available' => false,
+            ]);
+
+            $seat->update(['is_available' => false]);
+        }
+
+        return redirect()->route('home', $order->id);
+    }
+    
     public function index()
     {
         $orders = Order::with(['user', 'showtime'])->latest()->get();

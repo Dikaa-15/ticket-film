@@ -20,6 +20,7 @@
                 <th class="px-4 py-3">Qty</th>
                 <th class="px-4 py-3">Total</th>
                 <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3">Created At</th>
                 <th class="px-4 py-3">Action</th>
             </tr>
         </thead>
