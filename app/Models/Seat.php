@@ -26,7 +26,7 @@ class Seat extends Model
     }
     public function orderdetail()
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->hasMany(OrderDetail::class, 'seat_id');
     }
 
     public static function checkAvailability($studio_id, $seat_number)

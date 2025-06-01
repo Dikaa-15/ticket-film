@@ -12,7 +12,7 @@ class OrderDetailController extends Controller
     // Menampilkan daftar order details
     public function index()
     {
-        $orderDetails = OrderDetail::all();
+        $orderDetails = OrderDetail::latest()->get();
         return view('admin.orderdetail.index', compact('orderDetails'));
     }
 

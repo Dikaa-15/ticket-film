@@ -23,7 +23,6 @@
                 <th class="px-4 py-3">Aksi</th>
             </tr>
         </thead>
-
         <tbody class="divide-y divide-gray-100 bg-white">
             @foreach($films as $film)
             <tr class="hover:bg-gray-50 transition-all">

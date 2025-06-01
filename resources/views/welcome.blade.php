@@ -26,7 +26,6 @@
 
     <!-- Styles / Scripts -->
     @vite('resources/css/app.css', 'resources/js/app.js')
-
 </head>
 
 <body class="bg-main w-full h-full pt-5">
@@ -35,7 +34,7 @@
     <x-carousel></x-carousel>
 
     <!-- List Film Sedang Tayang -->
-    <div>
+    <div class="bg-main">
         <div class="flex items-center justify-between px-5 md:px-20">
             <h2 class="text-xl font-bold text-white">NOW SHOWING</h2>
 
@@ -45,10 +44,10 @@
             </a>
         </div>
 
-        <div class="w-full overflow-hidden">
+        <div class="w-full overflow-hidden bg-main">
             <div class="carousel carousel-center rounded-box max-w-full space-x-4 px-5 md:px-20 py-6 overflow-x-auto">
                 @forelse ($films as $film)
-                <a href="{{ route('film.show', $film->slug) }}" class="carousel-item block relative group w-64 rounded-box overflow-hidden">
+                <a href="{{ route('user.film.show', $film->slug) }}" class="carousel-item block relative group w-64 rounded-box overflow-hidden">
                     <img src="{{ Storage::url($film->poster) }}" alt="{{ $film->title }}"
                         class="rounded-box w-full h-96 object-cover" />
                     <!-- overlay hitam transparan -->
@@ -66,7 +65,7 @@
 
 
     <!-- List Film Segera Tayang -->
-    <div>
+    <div class="bg-main">
         <div class="flex items-center justify-between px-5 md:px-20">
             <h2 class="text-xl font-bold text-white">FUTURE SHOWING</h2>
 
@@ -77,10 +76,10 @@
         </div>
 
 
-        <div class="w-full overflow-hidden">
+        <div class="w-full overflow-hidden bg-main">
             <div class="carousel carousel-center rounded-box max-w-full space-x-4 px-5 md:px-20 py-6 overflow-x-auto">
                 @forelse ($featuresFilms as $film)
-                <a href="{{ route('film.show', $film->slug) }}" class="carousel-item block relative group w-64 rounded-box overflow-hidden">
+                <a href="{{ route('user.film.show', $film->slug) }}" class="carousel-item block relative group w-64 rounded-box overflow-hidden">
                     <img src="{{ Storage::url($film->poster) }}" alt="{{ $film->title }}"
                         class="rounded-box w-full h-96 object-cover" />
                     <!-- overlay hitam transparan -->
@@ -96,7 +95,7 @@
     </div>
 
     <!-- Trailer Section -->
-    <div x-data="{ open: false, videoId: null }" class="relative z-10">
+    <div class="bg-main" x-data="{ open: false, videoId: null }" class="relative z-10">
         <div class="flex items-center justify-between mx-6 md:mx-20 mt-10">
             <h2 class="text-lg font-semibold text-white">Cuplikan Trailer</h2>
         </div>
@@ -136,14 +135,6 @@
             </div>
         </div>
     </div>
-
-
-    
-
-
-
-
-
     <x-footer></x-footer>
 
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>

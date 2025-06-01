@@ -27,7 +27,6 @@
 <body class="bg-gray-50">
     <div class="flex h-screen">
         <x-sidebar></x-sidebar>
-
         <!-- Tambahin flex-1 biar sidebar dan konten imbang -->
         <div class="flex-1 p-6 overflow-y-auto mt-14">
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -123,8 +122,5 @@
             </div>
         </div>
     </div>
-
 </body>
-
-
 </html>

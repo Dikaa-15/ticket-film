@@ -22,6 +22,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\UserDashboardController;
 
 // Route::get('/', [HomeController::class,
 // 'films']{
@@ -29,6 +30,55 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 // })->name('home');
 
 Route::get('/', [HomeController::class, 'films'])->name('home');
+
+Route::middleware(['auth', 'role:user,admin'])->group(function () {
+    // Jadi misalnya ini
+    Route::get('/films/{slug}', [HomeController::class, 'show'])->name('user.film.show');
+    Route::get('/{slug}/showtime', [HomeController::class, 'showtime'])->name('film.showtime');
+    Route::get('/showtime/{id}/seats', [SeatSelectionController::class, 'index'])->name('seat.selection');
+    Route::post('/showtime/{id}/seats/book', [SeatSelectionController::class, 'book'])->name('seat.book');
+
+    // Routes for confirm an order
+    Route::post('/seat/confirm/{showtime}', [SeatController::class, 'confirmSeat'])->name('seat.confirm');
+    Route::post('/seat/finalize', [OrderController::class, 'finalize'])->name('seat.finalize');
+    // history order
+    Route::get('/order-history', [OrderController::class, 'history'])->name('order.history');
+});
+
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('admin', [
+        DashboardController::class,
+        'index'
+    ])->name('admin');
+    Route::resource('dashboard', DashboardController::class);
+    Route::resource('user', UserController::class);
+    Route::resource('studio', StudioController::class);
+    Route::resource('showtime', ShowtimeController::class);
+    Route::resource('seat', SeatController::class);
+    Route::resource('rating', RatingController::class);
+    Route::resource('orderdetail', OrderDetailController::class);
+    Route::resource('order', OrderController::class);
+    Route::patch('/order/{id}/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
+    Route::resource('genre', GenreController::class);
+    Route::resource('filmgenre', FilmGenreController::class);
+    Route::resource('bioskop', BioskopController::class);
+    Route::resource('filmbioskop', FilmBioskopController::class);
+
+    // ADMIN CRUD FILM
+    Route::get('/film', [FilmController::class, 'index'])->name('film.index');
+    Route::get('/film/create', [FilmController::class, 'create'])->name('film.create');
+    Route::post('/film', [FilmController::class, 'store'])->name('film.store');
+    Route::get('/film/{film}', [FilmController::class, 'show'])->name('film.show');
+    Route::get('/film/{film}/edit', [FilmController::class, 'edit'])->name('film.edit');
+    Route::put('/film/{film}', [FilmController::class, 'update'])->name('film.update');
+    Route::delete('/film/{film}', [FilmController::class, 'destroy'])->name('film.destroy');
+});
+
+
+
+Route::get('/tes-role', function () {
+    return 'Halo! Kamu berhasil lolos middleware role!';
+})->middleware(['auth', 'role:user,admin']);
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -55,44 +105,13 @@ Route::middleware('guest')->group(function () {
 });
 
 
-Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
-    Route::get('admin', [
-        DashboardController::class,
-        'index'
-    ])->name('admin');
-    Route::resource('dashboard', DashboardController::class);
-    Route::resource('user', UserController::class);
-    Route::resource('studio', StudioController::class);
-    Route::resource('showtime', ShowtimeController::class);
-    Route::resource('film', FilmController::class);
-    Route::resource('seat', SeatController::class);
-    Route::resource('rating', RatingController::class);
-    Route::resource('orderdetail', OrderDetailController::class);
-    Route::resource('order', OrderController::class);
-    Route::resource('genre', GenreController::class);
-    Route::resource('filmgenre', FilmGenreController::class);
-    Route::resource('bioskop', BioskopController::class);
-    Route::resource('filmbioskop', FilmBioskopController::class);
-});
-
-// Informasi detail film, showtime, select seat
-Route::group([], function () {
-    Route::get('/film/{slug}', [FilmController::class, 'show'])->name('film.show');
-    Route::get('/{slug}/showtime', [HomeController::class, 'showtime'])->name('film.showtime');
-    Route::get('/showtime/{id}/seats', [SeatSelectionController::class, 'index'])->name('seat.selection');
-    Route::post('/showtime/{id}/seats/book', [SeatSelectionController::class, 'book'])->name('seat.book');
-
-    Route::post('/seat/confirm/{showtime}', [SeatController::class, 'confirmSeat'])->name('seat.confirm');
-    Route::post('/seat/finalize', [OrderController::class, 'finalize'])->name('seat.finalize');
-});
-
-// Halaman detail film
 
 
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::middleware('auth')->group(function () {
@@ -100,8 +119,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-
-
 
 require __DIR__ . '/auth.php';

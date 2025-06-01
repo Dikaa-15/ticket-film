@@ -21,6 +21,7 @@ class Showtime extends Model
         'end_time',
         'price',
     ];
+
     public function film()
     {
         return $this->belongsTo(Film::class);
@@ -35,19 +36,21 @@ class Showtime extends Model
         return $this->studio?->bioskop();
     }
 
-    public function order()
+    public function orders()
     {
-        return $this->hasMany(Order::class, 'order_id');
+        return $this->hasMany(Order::class, 'showtime_id');
     }
 
     public function getAvailableSeats()
     {
-        return Seat::where('studio_id', $this->id_studio)
-            ->whereDoesntHave('ordersDetail', function ($q) {
-                $q->where('id_showtimes', $this->id_showtimes)
-                    ->where('is_available', false);
-            })->get();
+        return Seat::where('studio_id', $this->studio_id)
+            ->whereDoesntHave('orderDetails.order', function ($query) {
+                $query->where('showtime_id', $this->id)
+                    ->whereIn('status', ['pending', 'confirmed']);
+            })
+            ->get();
     }
+
 
     public function getEndTime()
     {

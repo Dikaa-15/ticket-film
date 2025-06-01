@@ -21,7 +21,7 @@ class FilmController extends Controller
     public function create()
     {
         $genres = Genre::all();
-        return view('admin.film.create', compact('genres'));
+        return view('ADMIN.film.create', compact('genres'));
     }
 
     // Menyimpan film baru

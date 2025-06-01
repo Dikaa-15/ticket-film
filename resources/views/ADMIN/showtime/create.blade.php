@@ -33,7 +33,7 @@
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required>
         @foreach($studios as $studio)
-        <option value="{{ $studio->id }}">{{ $studio->name }}</option>
+        <option value="{{ $studio->id }}">{{ $studio->name }} - {{ $studio->bioskop->name }}</option>
         @endforeach
       </select>
       @error('studio_id')

@@ -13,7 +13,6 @@ class HomeController extends Controller
 
     public function films()
     {
-
         $films = Film::where('date_release', '<=', Carbon::now())->get();
         $featuresFilms = Film::where('date_release', '>=', Carbon::now())->get();
         $trailers = Film::whereNotNull('trailer')->get();
@@ -23,14 +22,14 @@ class HomeController extends Controller
 
     public function show($slug)
     {
-        // Ambil film berdasarkan slug
-        $film = Film::where('slug', $slug)->firstOrFail();
-
-        //
+        $film = Film::where('slug', $slug)->first();
+        if (!$film) {
+            abort(404, 'Film tidak ditemukan');
+        }
         return view('film.show', compact('film'));
     }
 
-    
+
     public function showtime($slug)
     {
         $film = Film::where('slug', $slug)->firstOrFail();

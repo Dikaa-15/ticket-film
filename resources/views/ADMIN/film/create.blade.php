@@ -6,7 +6,6 @@
 
 <form action="{{ route('film.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
     @csrf
-
     <div class="grid grid-cols-2 gap-4 mb-4 focus:ring-main">
         <div>
             <label class="block mb-1 text-sm text-gray-700">Judul Film</label>
@@ -15,7 +14,7 @@
             <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
         </div>
-
+       <!-- Genre Film -->
         <div class="mb-4">
             <label class="block mb-1 text-sm font-medium text-gray-700">Genre Film</label>
             <div class="grid grid-cols-2 gap-2">

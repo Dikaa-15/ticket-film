@@ -131,6 +131,12 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10 mx-4 my-8">
         @foreach ($showtimes as $showtime)
+        @php
+        $showDate = \Carbon\Carbon::parse($showtime->show_date);
+        $nowPlus3 = \Carbon\Carbon::now()->addDays(3);
+        $isDisabled = $showDate->greaterThan($nowPlus3);
+        @endphp
+
         <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-5 hover:shadow-lg transition duration-300">
             <div class="mb-4">
                 <h2 class="text-xl font-semibold text-gray-800">{{ $showtime->studio->bioskop->name }}</h2>
@@ -138,20 +144,31 @@
             </div>
 
             <div class="text-sm text-gray-700 space-y-1">
-                <p><span class="font-medium">Tanggal:</span> {{ \Carbon\Carbon::parse($showtime->show_date)->format('d M Y') }}</p>
+                <p><span class="font-medium">Tanggal:</span> {{ $showDate->format('d M Y') }}</p>
                 <p><span class="font-medium">Jam:</span> {{ $showtime->show_time }} - {{ $showtime->end_time }}</p>
                 <p><span class="font-medium">Harga:</span> <span class="text-main font-semibold">Rp{{ number_format($showtime->price) }}</span></p>
             </div>
 
             <div class="mt-4">
-                <a class="w-full inline-block text-center bg-main text-white font-semibold py-2 px-4 rounded-lg hover:bg-white hover:border-1 border-main hover:text-main transition duration-200"
-                 href="{{ route('seat.selection', ['id' => $showtime->id]) }}">
+                <a
+                    href="{{ $isDisabled ? '#' : route('seat.selection', ['id' => $showtime->id]) }}"
+                    class="w-full inline-block text-center font-semibold py-2 px-4 rounded-lg transition duration-200
+                        {{ $isDisabled 
+                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                            : 'bg-main text-white hover:bg-white hover:border hover:border-main hover:text-main' 
+                        }}"
+                    {{ $isDisabled ? 'onclick=event.preventDefault();' : '' }}>
                     Pilih Kursi
                 </a>
+
+                @if($isDisabled)
+                <p class="text-xs text-red-500 text-center mt-2">Tiket hanya bisa dibeli maksimal H-3 sebelum penayangan.</p>
+                @endif
             </div>
         </div>
         @endforeach
     </div>
+
 
 
     <x-footer></x-footer>

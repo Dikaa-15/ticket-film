@@ -23,16 +23,13 @@
 </head>
 
 <body class="bg-main text-white font-sans">
-
     <x-navbar />
-
     <!-- Section Poster + Info -->
     <div class="relative w-full overflow-hidden">
         <!-- Background Poster Blur -->
         <img src="{{ Storage::url($film->poster) }}"
             alt="{{ $film->title }}"
             class="w-full h-full object-cover opacity-30 absolute top-0 left-0 z-0" />
-
 
         <!-- Konten Utama -->
         <div class="relative z-10 flex items-center min-h-[90vh] bg-black/50 backdrop-blur-xs">
@@ -126,11 +123,7 @@
             </div>
         </div>
     </div>
-
-
-
     <x-footer></x-footer>
-
 </body>
 
 </html>

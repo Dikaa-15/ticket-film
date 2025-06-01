@@ -48,7 +48,8 @@
                 $isAvailable = $seat->is_available;
                 @endphp
 
-                <label class="cursor-pointer relative group">
+                <label class="cursor-pointer relative group"
+                    title="{{ $isBooked ? 'Seat already booked' : ($isAvailable ? 'Available seat' : 'Seat unavailable') }}">
                     <input
                         type="checkbox"
                         name="seats[]"
@@ -56,7 +57,7 @@
                         class="hidden seat-checkbox"
                         {{ !$isAvailable || $isBooked ? 'disabled' : '' }}>
 
-                    <div class="seat-box p-4 py-6 rounded-lg text-center transition duration-300
+                    <div class="seat-box p-4 py-6 rounded-lg text-center transition duration-300Add commentMore actions
                 {{ $isBooked 
                     ? 'bg-white text-main cursor-not-allowed' 
                     : ($isAvailable 
@@ -70,6 +71,7 @@
                     </div>
                 </label>
                 @endforeach
+
             </div>
 
 

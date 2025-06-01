@@ -18,7 +18,10 @@ class Order extends Model
         'total_price',
         'status',
         'payment_method',
+        'proof_payment'
     ];
+
+
 
     public function user()
     {
@@ -29,7 +32,6 @@ class Order extends Model
         return $this->belongsTo(Showtime::class);
     }
     
-
     public function orderdetail()
     {
         return $this->hasMany(OrderDetail::class);
@@ -44,7 +46,4 @@ class Order extends Model
         return $code;
     }
 
-    
-
-    
 }

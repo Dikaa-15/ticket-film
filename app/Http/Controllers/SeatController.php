@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class SeatController extends Controller
 {
+
     public function confirmSeat(Request $request, Showtime $showtime)
     {
         $request->validate([
@@ -26,7 +27,7 @@ class SeatController extends Controller
             'totalPrice' => $totalPrice,
         ]);
     }
-    
+
     public function index()
     {
         $seats = Seat::with(['studio', 'bioskop'])

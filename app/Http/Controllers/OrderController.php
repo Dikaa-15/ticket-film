@@ -11,20 +11,39 @@ use App\Models\Showtime;
 use App\Models\OrderDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    public function confirm($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = 'confirmed';
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order berhasil dikonfirmasi!');
+    }
+
     public function finalize(Request $request)
     {
         $request->validate([
             'showtime_id' => 'required|exists:show_times,id',
             'seat_ids' => 'required|array|min:1',
+            'payment_method' => 'required|string|in:manual,bca,e-wallet',
+            'proof_payment' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
         $showtime = Showtime::findOrFail($request->showtime_id);
         $seats = Seat::whereIn('id', $request->seat_ids)->get();
         $totalPrice = count($seats) * $showtime->price;
         $pricePerTicket = $showtime->film->price;
+
+        // Handle bukti pembayaran
+        $proofPath = null;
+        if ($request->hasFile('proof_payment')) {
+            $proofPath = $request->file('proof_payment')->store('proofs', 'public');
+        }
+
 
         $order = Order::create([
             'order_number' => 'ORD-' . strtoupper(Str::random(8)),
@@ -33,7 +52,8 @@ class OrderController extends Controller
             'quantity' => count($seats),
             'total_price' => $totalPrice,
             'status' => 'pending',
-            'payment_method' => 'manual',
+            'payment_method' => $request->payment_method,
+            'proof_payment' => $proofPath,
         ]);
 
         foreach ($seats as $seat) {
@@ -48,7 +68,19 @@ class OrderController extends Controller
 
         return redirect()->route('home', $order->id);
     }
-    
+
+    public function history(Request $request)
+    {
+        $user = Auth::user();
+
+        $orders = Order::where('user_id', $user->id)
+            ->latest()
+            ->paginate(10);
+
+        return view('orders.history', compact('orders'));
+    }
+
+
     public function index()
     {
         $orders = Order::with(['user', 'showtime'])->latest()->get();
