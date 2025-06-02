@@ -145,13 +145,13 @@
                             <div data-method="manual" class="hidden">
                                 Transfer to: Bank ABC<br>
                                 Account: 1234567890<br>
-                                Amount: Rp TotalPrice<br>
+                                Amount: Rp {{ number_format($totalPrice, 0, ',', '.') }}<br>
                                 Include order ID in description
                             </div>
                             <div data-method="bca" class="hidden">
                                 Transfer to: BCA<br>
                                 Account: 0987654321<br>
-                                Amount: Rp TotalPrice
+                                Amount: Rp {{ number_format($totalPrice, 0, ',', '.') }}
                             </div>
                             <div data-method="e-wallet" class="hidden">
                                 Scan QR code or use phone number: 08123456789

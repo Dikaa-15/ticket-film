@@ -66,8 +66,22 @@ class OrderController extends Controller
             $seat->update(['is_available' => false]);
         }
 
-        return redirect()->route('home', $order->id);
+        return redirect()->route('order.success', ['order' => $order->id]);
     }
+
+    public function success($orderId)
+    {
+        $order = Order::where('id', $orderId)
+            ->where('user_id', auth()->id()) // memastikan hanya user yg punya order ini
+            ->firstOrFail();
+
+        if ($order->status !== 'pending') {
+            abort(403, 'Access denied. You have not completed the ticket purchase.');
+        }
+
+        return view('orders.success', compact('order'));
+    }
+
 
     public function history(Request $request)
     {

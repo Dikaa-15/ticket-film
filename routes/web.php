@@ -41,6 +41,11 @@ Route::middleware(['auth', 'role:user,admin'])->group(function () {
     // Routes for confirm an order
     Route::post('/seat/confirm/{showtime}', [SeatController::class, 'confirmSeat'])->name('seat.confirm');
     Route::post('/seat/finalize', [OrderController::class, 'finalize'])->name('seat.finalize');
+    //success order
+    Route::get('/order-success/{order}', [OrderController::class, 'success'])
+        ->middleware(['auth', 'role:user,admin', 'has.purchased.ticket'])
+        ->name('order.success');
+
     // history order
     Route::get('/order-history', [OrderController::class, 'history'])->name('order.history');
 });
