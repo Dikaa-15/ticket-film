@@ -111,11 +111,13 @@
                 @if ($videoId)
                 <div class="min-w-[280px] md:min-w-[320px] h-[180px] bg-black rounded-lg overflow-hidden shadow-md cursor-pointer"
                     @click="open = true; videoId = '{{ $videoId }}'">
-                    <iframe class="w-full h-full pointer-events-none"
-                        src="https://www.youtube.com/embed/{{ $videoId }}" title="Trailer"
-                        frameborder="0" allowfullscreen>
-                    </iframe>
+                    <div class="w-full h-full bg-black">
+                        <iframe class="w-full bg-main h-full pointer-events-none"
+                            src="https://www.youtube.com/embed/{{ $videoId }}" title="Trailer"
+                            frameborder="0" allowfullscreen></iframe>
+                    </div>
                 </div>
+
                 @endif
                 @empty
                 <p class="text-white">Tidak ada trailer tersedia.</p>

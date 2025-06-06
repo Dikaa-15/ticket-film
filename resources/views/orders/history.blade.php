@@ -50,7 +50,9 @@
     <div class="max-w-7xl mx-auto">
         <div class="flex items-center gap-4 md:gap-6 mb-6">
             <div class="bg-white/10 p-2 rounded-xl shadow-lg backdrop-blur-md transition hover:scale-105 duration-300">
-                <img src="{{ asset('logos/logo-64-big.png') }}" alt="Logo" class="w-12 h-12 object-contain">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('logos/logo-64-big.png') }}" alt="Logo" class="w-12 h-12 object-contain">
+                </a>
             </div>
             <h1 class="text-white text-2xl md:text-4xl font-extrabold tracking-tight drop-shadow-sm">
                 Order History

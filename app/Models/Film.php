@@ -44,6 +44,15 @@ class Film extends Model
     {
         return $this->hasMany(Showtime::class, 'film_id');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($film) {
+            $film->showtimes()->delete(); // Delete semua showtimes yang terkait
+        });
+    }
+
+
     public function bioskops()
     {
         return $this->belongsToMany(Bioskop::class, 'film_bioskop');
