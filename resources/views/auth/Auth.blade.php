@@ -110,6 +110,16 @@
                     @enderror
                 </div>
 
+                <div>
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <input id="password_confirmation" name="password_confirmation" type="password" required
+                        class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:border-primary @error('password_confirmation') border-red-500 @enderror">
+                    @error('password_confirmation')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+
                 <button type="submit"
                     class="w-full py-2 px-4 bg-primary text-white font-medium rounded-md hover:bg-primary/90 transition">
                     Create Account

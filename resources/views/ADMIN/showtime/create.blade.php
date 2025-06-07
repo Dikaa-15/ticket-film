@@ -16,8 +16,15 @@
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required>
         @foreach($films as $film)
-        <option value="{{ $film->id }}">{{ $film->title }}</option>
+        @php
+        $durationTime = \Carbon\Carbon::parse($film->duration);
+        $durationMinutes = $durationTime->hour * 60 + $durationTime->minute;
+        @endphp
+        <option value="{{ $film->id }}" data-duration="{{ $durationMinutes }}">
+          {{ $film->title }}
+        </option>
         @endforeach
+
       </select>
       @error('film_id')
       <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -50,9 +57,9 @@
         name="show_date"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required />
-        @error('show_date')
+      @error('show_date')
       <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-        @enderror
+      @enderror
     </div>
 
     {{-- Jam Tayang --}}
@@ -64,22 +71,22 @@
         name="show_time"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required />
-        @error('show_time')
+      @error('show_time')
       <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-        @enderror
+      @enderror
     </div>
     {{-- Jam Akhir --}}
     <div>
-      <label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">Jam Tayang</label>
+      <label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">Jam Akhir</label>
       <input
         type="time"
         id="end_time"
         name="end_time"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required />
-        @error('end_time')
+      @error('end_time')
       <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-        @enderror
+      @enderror
     </div>
 
     {{-- Harga --}}
@@ -91,9 +98,9 @@
         name="price"
         class="w-full rounded border border-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         required />
-        @error('price')
+      @error('price')
       <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-        @enderror
+      @enderror
     </div>
 
     {{-- Tombol Simpan --}}
@@ -106,4 +113,31 @@
     </div>
   </form>
 </div>
+<script>
+  const filmSelect = document.getElementById('film_id');
+  const showTimeInput = document.getElementById('show_time');
+  const endTimeInput = document.getElementById('end_time');
+
+  function calculateEndTime() {
+    const selectedOption = filmSelect.options[filmSelect.selectedIndex];
+    const duration = parseInt(selectedOption.dataset.duration);
+    const showTime = showTimeInput.value;
+
+    if (!showTime || isNaN(duration)) return;
+
+    const [hour, minute] = showTime.split(':').map(Number);
+    const totalMinutes = hour * 60 + minute + duration + 15;
+    const endHour = Math.floor(totalMinutes / 60) % 24;
+    const endMinute = totalMinutes % 60;
+
+    const formatted = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
+    endTimeInput.value = formatted;
+  }
+
+  filmSelect.addEventListener('change', calculateEndTime);
+  showTimeInput.addEventListener('change', calculateEndTime);
+
+  document.addEventListener('DOMContentLoaded', calculateEndTime);
+</script>
+
 @endsection

@@ -72,20 +72,6 @@
     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
     @enderror
 
-    {{-- Jam Tayang --}}
-    <div>
-      <label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">Jam Akhir Tayang</label>
-      <input
-        type="time"
-        id="end_time"
-        name="end_time"
-        value="{{ $showtime->end_time }}"
-        class="w-full rounded border boder-gray-300 shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        required />
-    </div>
-    @error('end_time')
-    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-    @enderror
 
     {{-- Harga --}}
     <div>

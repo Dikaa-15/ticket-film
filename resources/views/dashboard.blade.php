@@ -52,7 +52,7 @@
         <section class="mb-10">
             <div class="flex flex-col md:flex-row items-start md:items-center gap-6 p-6 rounded-2xl shadow-lg">
                 <div class="relative">
-                    <img src="{{ asset('storage/'.$user->poto) }}" alt="User avatar" class="w-20 h-20 rounded-full border-2 border-main object-cover">
+                    <img src="{{ asset('storage/'.$user->poto || 'Not Poto yet') }}" alt="User avatar" class="w-20 h-20 rounded-full border-2 border-main object-cover">
                 </div>
                 <div class="flex-1">
                     <h2 class="text-2xl font-bold">{{ $user->name }}</h2>

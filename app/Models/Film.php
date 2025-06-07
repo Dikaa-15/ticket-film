@@ -21,6 +21,7 @@ class Film extends Model
         'director',
         'date_release'
     ];
+    
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = $value;

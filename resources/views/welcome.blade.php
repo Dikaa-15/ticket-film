@@ -37,11 +37,6 @@
     <div class="bg-main">
         <div class="flex items-center justify-between px-5 md:px-20">
             <h2 class="text-xl font-bold text-white">NOW SHOWING</h2>
-
-            <a href="#" class="flex items-center gap-1 text-sm text-white hover:underline">
-                Lihat Semua
-                <i class="fas fa-circle-chevron-right text-white"></i>
-            </a>
         </div>
 
         <div class="w-full overflow-hidden bg-main">
@@ -69,10 +64,7 @@
         <div class="flex items-center justify-between px-5 md:px-20">
             <h2 class="text-xl font-bold text-white">FUTURE SHOWING</h2>
 
-            <a href="#" class="flex items-center gap-1 text-sm text-white hover:underline">
-                Lihat Semua
-                <i class="fa-duotone fa-solid fa-circle-chevron-right"
-                    style="--fa-primary-color: #02003c; --fa-secondary-color: #ff8c00;"></i> </a>
+
         </div>
 
 
@@ -95,7 +87,7 @@
     </div>
 
     <!-- Trailer Section -->
-    <div class="bg-main" x-data="{ open: false, videoId: null }" class="relative z-10">
+    <div class="bg-main mt-[-50px]" x-data="{ open: false, videoId: null }" class="relative z-10">
         <div class="flex items-center justify-between mx-6 md:mx-20 mt-10">
             <h2 class="text-lg font-semibold text-white">Cuplikan Trailer</h2>
         </div>
@@ -137,8 +129,8 @@
             </div>
         </div>
     </div>
-    <x-footer></x-footer>
 
+    <x-footer></x-footer>
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
 </body>
 
