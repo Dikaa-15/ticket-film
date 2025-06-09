@@ -12,15 +12,15 @@
                 <nav aria-label="Global">
                     <ul class="flex items-center gap-6 text-sm">
                         <li>
-                            <a class="text-white transition hover:text-gray-500/75" href="#"> About </a>
+                            <a class="text-white transition hover:text-gray-500/75" href="#"> Home </a>
                         </li>
 
                         <li>
-                            <a class="text-white transition hover:text-gray-500/75" href="#"> Careers </a>
+                            <a class="text-white transition hover:text-gray-500/75" href="{{ route('user.film.index') }}"> Films </a>
                         </li>
 
                         <li>
-                            <a class="text-white transition hover:text-gray-500/75" href="#"> History </a>
+                            <a class="text-white transition hover:text-gray-500/75" href="{{ route('contact.index') }}"> Contact us </a>
                         </li>
                     </ul>
                 </nav>

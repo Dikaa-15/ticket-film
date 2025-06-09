@@ -22,6 +22,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserDashboardController;
 
 // Route::get('/', [HomeController::class,
@@ -38,6 +39,9 @@ Route::middleware(['auth', 'role:user,admin'])->group(function () {
     Route::get('/showtime/{id}/seats', [SeatSelectionController::class, 'index'])->name('seat.selection');
     Route::post('/showtime/{id}/seats/book', [SeatSelectionController::class, 'book'])->name('seat.book');
 
+    // routes for page films
+    Route::get('/films', [HomeController::class, 'index'])->name('user.film.index');
+
     // Routes for confirm an order
     Route::post('/seat/confirm/{showtime}', [SeatController::class, 'confirmSeat'])->name('seat.confirm');
     Route::post('/seat/finalize', [OrderController::class, 'finalize'])->name('seat.finalize');
@@ -48,6 +52,11 @@ Route::middleware(['auth', 'role:user,admin'])->group(function () {
 
     // history order
     Route::get('/order-history', [OrderController::class, 'history'])->name('order.history');
+
+    // contact-us
+    Route::get('/contact-us', [ContactController::class, 'index'])->name('contact.index');
+    Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
+    
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {

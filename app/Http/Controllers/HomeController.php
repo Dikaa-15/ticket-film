@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 
 use App\Models\Film;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     //
+    public function index()
+    {
+        // Ambil genre yang diminta
+        $genres = Genre::whereIn('slug', ['horor', 'comedy', 'drama', 'fantasy'])->get();
+
+        return view('film.index', compact('genres'));
+    }
 
     public function films()
     {
